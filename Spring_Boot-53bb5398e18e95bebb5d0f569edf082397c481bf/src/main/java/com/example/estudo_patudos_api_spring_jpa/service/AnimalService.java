@@ -1,6 +1,5 @@
 package com.example.estudo_patudos_api_spring_jpa.service;
 
-import com.example.estudo_patudos_api_spring_jpa.dto.AnimalDTO;
 import com.example.estudo_patudos_api_spring_jpa.model.Animal;
 import com.example.estudo_patudos_api_spring_jpa.repository.AnimalRepository;
 import org.springframework.stereotype.Service;

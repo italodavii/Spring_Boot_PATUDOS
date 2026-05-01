@@ -1,7 +1,6 @@
 package com.example.estudo_patudos_api_spring_jpa.controller;
 
 import com.example.estudo_patudos_api_spring_jpa.model.Instituicao;
-import com.example.estudo_patudos_api_spring_jpa.service.InstituicaoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
