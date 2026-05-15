@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/pets")
-@CrossOrigin(origins = "*") // Permite a comunicação com o Front-end
+@CrossOrigin(origins = "http://localhost:5173") // Permite a comunicação com o Front-end
 public class PetController {
 
     @Autowired
@@ -22,11 +22,13 @@ public class PetController {
             @RequestParam(required = false) String especie,
             @RequestParam(required = false) String genero,
             @RequestParam(required = false) String idade,
-            @RequestParam(required = false) String status,
+            @RequestParam(required = false, defaultValue = "disponivel") String status,
             Pageable pageable) {
 
-        // O status padrão como "disponivel" garante que a Home funcione
-        Page<Pet> pets = petService.listarTodos(especie, genero, idade, status,false, pageable);
+        // ativo=true é garantido pelo @SQLRestriction na entidade Pet.
+        // status default = "disponivel" garante que catálogo público e dashboard
+        // mostrem apenas pets disponíveis sem precisar passar o parâmetro.
+        Page<Pet> pets = petService.listarTodos(especie, genero, idade, status, false, pageable);
         return ResponseEntity.ok(pets);
     }
 
@@ -39,6 +41,11 @@ public class PetController {
     public ResponseEntity<Void> excluirPet(@PathVariable Long id) {
         petService.excluir(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Pet> atualizarPet(@PathVariable Long id, @RequestBody Pet dados) {
+        return ResponseEntity.ok(petService.atualizar(id, dados));
     }
 
     @PatchMapping("/{id}/adotado")

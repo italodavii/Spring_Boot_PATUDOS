@@ -1,6 +1,7 @@
 package com.example.estudo_patudos_api_spring_jpa.service;
 
 import com.example.estudo_patudos_api_spring_jpa.dto.EstatisticasDTO;
+import com.example.estudo_patudos_api_spring_jpa.dto.PublicStatsDTO;
 import com.example.estudo_patudos_api_spring_jpa.repository.EventoRepository;
 import com.example.estudo_patudos_api_spring_jpa.repository.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ public class EstatisticasService {
     @Autowired
     private EventoRepository eventoRepository;
 
-    public EstatisticasDTO gerarRelatorioPublico() {
-        EstatisticasDTO dto = new EstatisticasDTO();
+    public PublicStatsDTO gerarRelatorioPublico() {
+        PublicStatsDTO dto = new PublicStatsDTO();
         long adotados = petRepository.countByStatus("adotado");
         long disponiveis = petRepository.countByAtivoTrueAndStatus("disponivel");
 
@@ -38,7 +39,7 @@ public class EstatisticasService {
         // Eventos
         LocalDate hoje = LocalDate.now();
         dto.setEventosAgendados(eventoRepository.countByDataAfter(hoje));
-        dto.setTotalEventosHistorico(eventoRepository.count());
+        dto.setTotalEventosFinalizados(eventoRepository.countByDataBefore(hoje));
 
         return dto;
     }

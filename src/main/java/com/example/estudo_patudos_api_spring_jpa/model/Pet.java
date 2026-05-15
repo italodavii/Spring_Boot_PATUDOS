@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @EntityListeners(AuditingEntityListener.class)
-@SQLDelete(sql = "UPDATE PET SET ativo = false WHERE id = ?") // Transforma o DELETE em UPDATE
+@SQLDelete(sql = "UPDATE PET SET ativo = false, status = 'excluido' WHERE id = ?") // Soft delete: desativa e marca como excluído
 @SQLRestriction("ativo = true") // Substitui o @Where
 public class Pet {
 

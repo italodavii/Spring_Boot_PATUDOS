@@ -60,6 +60,24 @@ public class PetService {
         return petRepository.save(pet);
     }
 
+    // Atualiza apenas campos editáveis. ativo e status NÃO são tocados aqui —
+    // transições de status passam por marcarComoAdotado() / excluir().
+    @Transactional
+    public Pet atualizar(Long id, Pet dados) {
+        Pet existente = petRepository.findById(id).orElseThrow();
+
+        if (dados.getNome() != null) existente.setNome(dados.getNome().trim());
+        if (dados.getEspecie() != null) existente.setEspecie(dados.getEspecie().toLowerCase().trim());
+        if (dados.getIdade() != null) existente.setIdade(dados.getIdade().toLowerCase().trim());
+        if (dados.getGenero() != null) existente.setGenero(dados.getGenero().toLowerCase().trim());
+        if (dados.getDescricao() != null) existente.setDescricao(dados.getDescricao());
+        if (dados.getUrlFoto() != null && !dados.getUrlFoto().isBlank()) {
+            existente.setUrlFoto(dados.getUrlFoto());
+        }
+
+        return petRepository.save(existente);
+    }
+
     @Transactional
     public void marcarComoAdotado(Long id) {
         Pet pet = petRepository.findById(id).orElseThrow();
