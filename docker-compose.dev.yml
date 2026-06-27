@@ -1,15 +1,21 @@
 services:
-  oracle:
-    image: gvenzl/oracle-free:23-slim-faststart
-    container_name: patudos-oracle-dev
+  postgres:
+    image: postgres:16-alpine
+    container_name: patudos-postgres-dev
     environment:
-      ORACLE_PASSWORD: senhalocal123
-      APP_USER: patudos
-      APP_USER_PASSWORD: senhalocal123
+      POSTGRES_DB: patudos
+      POSTGRES_USER: patudos
+      POSTGRES_PASSWORD: senhalocal123
     ports:
-      - "127.0.0.1:1521:1521"
+      # Host 5433 (a 5432 ja esta em uso por um Postgres local). Container continua em 5432.
+      - "127.0.0.1:5433:5432"
     volumes:
-      - patudos_dev_data:/opt/oracle/oradata
+      - patudos_dev_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U patudos -d patudos"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   patudos_dev_data:

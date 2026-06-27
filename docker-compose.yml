@@ -1,13 +1,35 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: patudos-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-patudos}
+      POSTGRES_USER: ${POSTGRES_USER:-patudos}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-senhalocal123}
+    volumes:
+      - patudos_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-patudos} -d ${POSTGRES_DB:-patudos}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   api:
     build: .
     container_name: patudos-api
     restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
     ports:
       - "8080:8080"
     environment:
-      DB_URL: ${DB_URL}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
+      DB_URL: ${DB_URL:-jdbc:postgresql://postgres:5432/patudos}
+      DB_USER: ${DB_USER:-patudos}
+      DB_PASSWORD: ${DB_PASSWORD:-senhalocal123}
       DDL_AUTO: ${DDL_AUTO:-update}
       SHOW_SQL: ${SHOW_SQL:-false}
+
+volumes:
+  patudos_data:

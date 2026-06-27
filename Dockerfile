@@ -11,8 +11,5 @@ WORKDIR /app
 # Copia o arquivo compilado (.jar)
 COPY --from=build /app/target/*.jar app.jar
 
-# Move a pasta wallet do build para a raiz de execução
-COPY --from=build /app/src/main/resources/wallet /app/wallet
-
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
