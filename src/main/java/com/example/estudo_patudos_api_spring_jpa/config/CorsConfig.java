@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  *
  * Origens permitidas vem da variavel CORS_ALLOWED_ORIGINS (lista separada por virgula).
  * Default: http://localhost:5173 (front Vite local).
- * Em producao, definir ex.: CORS_ALLOWED_ORIGINS=https://patudos.vercel.app
+ * Aceita padroes (ex.: https://*.vercel.app) para cobrir producao + previews do Vercel.
  */
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
@@ -21,7 +21,7 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOrigins(allowedOrigins)
+                .allowedOriginPatterns(allowedOrigins)
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
