@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/pets")
-@CrossOrigin(origins = "http://localhost:5173") // Permite a comunicação com o Front-end
 public class PetController {
 
     @Autowired

@@ -1,0 +1,25 @@
+# Build artifacts (recompilados dentro do container)
+target/
+!**/src/main/**/target/
+
+# Git e IDE
+.git/
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# Maven wrapper extra
+.mvn/wrapper/maven-wrapper.jar
+
+# Ambiente local (NUNCA vai pra imagem)
+.env
+.env.local
+.env.*.local
+
+# Docker / docs
+docker-compose*.yml
+HELP.md
+README*
