@@ -45,6 +45,13 @@ public class PetService {
         return petRepository.findAll(spec, pageable);
     }
 
+    // Pet individual (público). @SQLRestriction garante que só retorna pets ativos.
+    public Pet buscarPorId(Long id) {
+        return petRepository.findById(id)
+                .orElseThrow(() -> new org.springframework.web.server.ResponseStatusException(
+                        org.springframework.http.HttpStatus.NOT_FOUND, "Pet não encontrado."));
+    }
+
     public Pet salvar(Pet pet) {
         pet.setEspecie(pet.getEspecie().toLowerCase().trim());
         pet.setStatus(pet.getStatus().toLowerCase().trim());
@@ -74,6 +81,11 @@ public class PetService {
         if (dados.getUrlFoto() != null && !dados.getUrlFoto().isBlank()) {
             existente.setUrlFoto(dados.getUrlFoto());
         }
+
+        // Cuidados veterinários (booleans sempre presentes no payload do form)
+        existente.setVacinado(dados.isVacinado());
+        existente.setCastrado(dados.isCastrado());
+        existente.setVermifugado(dados.isVermifugado());
 
         return petRepository.save(existente);
     }
