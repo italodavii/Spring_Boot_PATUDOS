@@ -14,7 +14,7 @@ import java.time.LocalTime;
 @Entity
 @Data
 @EntityListeners(AuditingEntityListener.class)
-@SQLDelete(sql = "UPDATE eventos SET ativo = false WHERE id = ?") // Transforma o DELETE em UPDATE
+@SQLDelete(sql = "UPDATE evento SET ativo = false WHERE id = ?") // Soft delete (tabela: evento)
 @SQLRestriction("ativo = true") // Substitui o @Where
 public class Evento {
 
