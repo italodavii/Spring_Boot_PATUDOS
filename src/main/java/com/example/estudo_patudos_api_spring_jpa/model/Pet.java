@@ -2,6 +2,7 @@ package com.example.estudo_patudos_api_spring_jpa.model;
 
 import jakarta.persistence.*;
 import lombok.Data; // O Lombok gera Getters/Setters sozinho!
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.annotation.CreatedDate;
@@ -44,6 +45,21 @@ public class Pet {
 
     @Column(nullable = false)
     private boolean ativo = true;
+
+    // Cuidados veterinários — o admin marca no cadastro; exibidos no popup do pet.
+    // @ColumnDefault garante DEFAULT false no ALTER TABLE (ddl-auto=update) para
+    // não quebrar com as linhas já existentes.
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean vacinado = false;
+
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean castrado = false;
+
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean vermifugado = false;
 
     @Column(nullable = false, updatable = false)
     @CreatedDate

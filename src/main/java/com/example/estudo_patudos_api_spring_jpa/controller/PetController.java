@@ -31,6 +31,12 @@ public class PetController {
         return ResponseEntity.ok(pets);
     }
 
+    // Pet individual (público) — usado pela tela de intenção de adoção (suporta link direto/refresh).
+    @GetMapping("/{id}")
+    public ResponseEntity<Pet> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(petService.buscarPorId(id));
+    }
+
     @PostMapping
     public ResponseEntity<Pet> cadastrarPet(@RequestBody Pet pet) {
         return ResponseEntity.status(HttpStatus.CREATED).body(petService.salvar(pet));

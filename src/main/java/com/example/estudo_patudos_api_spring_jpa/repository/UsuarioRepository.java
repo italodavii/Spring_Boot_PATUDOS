@@ -1,0 +1,13 @@
+package com.example.estudo_patudos_api_spring_jpa.repository;
+
+import com.example.estudo_patudos_api_spring_jpa.model.Usuario;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+    Optional<Usuario> findByEmail(String email);
+    boolean existsByEmail(String email);
+}
